@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小港職醫 Demo 修改總覽</title>
+<style>
+:root{--bg:#f6f5f2;--fg:#222;--mute:#666;--card:#fff;--line:#e3e0d8;--accent:#e07b12;--ok:#249b3e;--code:#f0eee8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1a18;--fg:#eee;--mute:#aaa;--card:#252421;--line:#3a3833;--accent:#f0983a;--ok:#4cc46a;--code:#2f2d29}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 -apple-system,"PingFang TC","Noto Sans TC",sans-serif}
+main{max-width:860px;margin:0 auto;padding:2rem 16px 4rem}
+h1{font-size:1.8rem;margin:.2rem 0 .4rem;text-wrap:balance}
+h2{font-size:1.25rem;margin:2.2rem 0 .8rem;padding-top:.4rem;border-top:3px solid var(--accent)}
+h3{font-size:1.05rem;margin:1.2rem 0 .3rem}
+p.sub{color:var(--mute);margin:0}
+section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.2rem 1.2rem 1rem;margin:.8rem 0}
+ul{margin:.3rem 0;padding-left:1.3rem}
+li{margin:.25rem 0}
+code{background:var(--code);padding:.05rem .35rem;border-radius:4px;font-size:.9em}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:480px}
+th,td{border-bottom:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:600;font-size:.9rem}
+.tag{display:inline-block;font-size:.78rem;padding:0 .5rem;border-radius:99px;border:1px solid var(--line);color:var(--mute);margin-right:.3rem}
+.ok{color:var(--ok);font-weight:700}
+.warn{color:var(--accent);font-weight:700}
+</style>
+</head>
+<body>
+<main>
+<h1>小港職醫 Demo 修改總覽</h1>
+<p class="sub">專案：wacare-occupational-health ｜ 最新 commit：3cbbcd2（已推上 GitHub） ｜ 整理日期：2026-10-12</p>
+
+<h2>1. 專案做法</h2>
+<section>
+<ul>
+<li>原始碼不可得，直接修補已編譯的 <code>src/wacare-bundle.js</code>（以精確字串取代，每處都確認只命中一次，並用 <code>node --check</code> 驗證）。</li>
+<li>樣式在 <code>src/wacare.css</code>（手機框與流體版面）與 <code>src/kmsh-page.css</code>（活動頁、專家頁、聊天室、問卷、風險模組）。</li>
+<li>跨畫面狀態使用 <code>window.__*</code> 全域變數，路由狀態在 <code>C1</code>。</li>
+<li><code>dist/</code> 已過期，驗證一律用 dev server 或輸出到暫存資料夾的 build。</li>
+</ul>
+</section>
+
+<h2>2. 版面與響應式</h2>
+<section>
+<ul>
+<li>桌機 Demo 改為真正的流體手機框（<code>.wc-shell</code>，≥768px 時根字級隨寬度縮放），不用 zoom 或 scale。</li>
+<li>補上編譯後缺少的 Tailwind class（如 <code>bottom-16</code>、<code>bg-[#777]</code>），修好聊天室與同意頁的跑版。</li>
+<li>驗證寬度：375 / 393 / 430 / 1280 / 1440 / 1920，均無橫向捲軸與破版。</li>
+</ul>
+</section>
+
+<h2>3. 活動頁（6 步驟）</h2>
+<section>
+<div class="tbl"><table>
+<tr><th>步驟</th><th>內容</th></tr>
+<tr><td>1</td><td>同意條款</td></tr>
+<tr><td>2</td><td>與專家打招呼（隨機分派「職場健康-個管師」或「職場健康-AI專家」）</td></tr>
+<tr><td>3</td><td>AI 辨識檢驗（選填，可略過；完成後問卷自動帶入數據）</td></tr>
+<tr><td>4</td><td>填寫職業促發腦心血管疾病風險</td></tr>
+<tr><td>5</td><td>點擊收案</td></tr>
+<tr><td>6</td><td>填寫血壓測量</td></tr>
+</table></div>
+<ul>
+<li>依線上頁面重建，並補上「從哪裡跳出去就回到哪裡」的轉跳邏輯。</li>
+<li>步驟 3、4 的說明文字精簡，並加入 App 操作截圖作為示意圖（<code>ai-lab-1~3.png</code>、<code>occ-risk-1~3.png</code>）。</li>
+<li>前置條件為同意、專家、問卷三項；步驟 3 不列入。「重置 Demo」會一併清除檢驗紀錄。</li>
+</ul>
+</section>
+
+<h2>4. 專家頁與聊天室</h2>
+<section>
+<ul>
+<li>新增專家頁（追蹤後才可從訊息頁點到訊息中的網址）與聊天室。</li>
+<li>Demo 從「已追蹤、已收到訊息」開始，不必從頭操作。</li>
+<li>點擊追蹤後自動跳回活動頁；從訊息點網址可直接轉跳。</li>
+</ul>
+</section>
+
+<h2>5. 職場問卷：過勞量表</h2>
+<section>
+<ul>
+<li>依勞動部指引計分：答案 1–5 對應 100/75/50/25/0；個人過勞為 Q8–13 平均；工作相關過勞為 Q14–20 平均，其中 Q20 反向計分。</li>
+<li>問卷清單、選擇器、結果頁與「編輯紀錄」分頁的跳轉流程；點「下一頁」時回到頂部。</li>
+<li>Q1–4 預設帶入：血壓取血壓燈最新紀錄、血脂肪取檢驗燈最新紀錄；血壓預設 120/79/62。</li>
+<li>已確認反向題有被正確處理。</li>
+<li class="warn">備註：截圖範例個人過勞為 22 分，原型算出 25 分；上線版是正確的，原型不調整，日後整理待更新清單時再提醒。</li>
+</ul>
+</section>
+
+<h2>6. 風險預測：職業促發腦心血管疾病風險（新模組）</h2>
+<section>
+<h3>資料來源與流程</h3>
+<ul>
+<li>依勞動部《異常工作負荷促發疾病預防指引》（第二版，108 年 4 月）。</li>
+<li>需要兩份資料才能按確認：10 年心血管疾病風險（既有 AHA PREVENT 模組的 CVD10）與過勞量表。若資料缺少，會導向前往填寫或辨識。</li>
+<li>另外填寫月加班時數與六項工作型態。</li>
+</ul>
+<h3>判定邏輯</h3>
+<div class="tbl"><table>
+<tr><th>項目</th><th>低 / 中 / 高</th></tr>
+<tr><td>個人過勞</td><td>&lt;50 / 50–70 / &gt;70</td></tr>
+<tr><td>工作相關過勞</td><td>&lt;45 / 45–60 / &gt;60</td></tr>
+<tr><td>月加班時數</td><td>&lt;45 / 45–80 / &gt;80</td></tr>
+<tr><td>工作型態</td><td>0–1 項 / 2–3 項 / ≥4 項</td></tr>
+<tr><td>10 年 CVD 風險</td><td>&lt;10%（0 分）/ 10–20%（1 分）/ &gt;20%（2 分）</td></tr>
+</table></div>
+<ul>
+<li>工作負荷取四項中最嚴重者；綜合風險 = 風險分 + 負荷分（0 低度、1–2 中度、3–4 高度）。</li>
+<li>面談建議依「工作負荷 × 綜合風險」矩陣：低負荷 [不需, 不需, 建議]、中負荷 [不需, 建議, 需要]、高負荷 [建議, 需要, 需要]。</li>
+</ul>
+<h3>結果頁調整</h3>
+<ul>
+<li>拿掉「選幾項會高負荷」等補充文字，只保留指引出處與「結果僅供參考，不構成醫療診斷或治療建議」。</li>
+<li>面談建議下新增原因，例如「工作負荷為高負荷（主要來自工作型態），綜合風險為低度風險。」，避免問卷皆低、只有工作型態高時建議看起來矛盾。</li>
+<li>輸入數據的「工作型態（表三）」改為「工作型態」，數量放右側，項目列表移到下一行。</li>
+</ul>
+</section>
+
+<h2>7. 驗證結果</h2>
+<section>
+<div class="tbl"><table>
+<tr><th>項目</th><th>結果</th></tr>
+<tr><td>結果頁四種情境（低、中、高、只有型態高）</td><td class="ok">PASS（開發伺服器）</td></tr>
+<tr><td>六種寬度版面</td><td class="ok">PASS</td></tr>
+<tr><td>返回後列表出現紀錄並可重開</td><td class="ok">PASS</td></tr>
+<tr><td>主控台錯誤</td><td class="ok">無</td></tr>
+<tr><td>tsc / vite build（輸出到暫存資料夾）</td><td class="ok">通過</td></tr>
+<tr><td>最後一次「工作型態」排版修改</td><td class="warn">NOT VERIFIED（僅通過語法檢查，尚未用瀏覽器確認）</td></tr>
+<tr><td>實體手機</td><td class="warn">NOT VERIFIED</td></tr>
+</table></div>
+</section>
+
+<h2>8. 待辦與提醒</h2>
+<section>
+<ul>
+<li>風險評估表「10 年心血管疾病風險」的等級寫「低（0 分）」，其他列寫「低負荷」，寫法不一致，尚未調整。</li>
+<li>整理「待更新內容」時，列入：上線版問卷換頁需回到頂部；過勞量表計分落差（上線版正確，不列為上線版待修）。</li>
+<li>原本保留的內容：六項工作型態定義、風險評估表、個人與工作相關過勞說明。如要再精簡可另外提出。</li>
+</ul>
+</section>
+
+<h2>9. 修改檔案</h2>
+<section>
+<ul>
+<li><span class="tag">Modified</span><code>src/wacare-bundle.js</code>、<code>src/kmsh-page.css</code>、<code>src/wacare.css</code>、<code>src/main.tsx</code></li>
+<li><span class="tag">Added</span><code>public/assets/kmshPlan/</code> 下的 <code>cta-bg.svg</code>、<code>host-bg.png</code>、<code>ai-lab-1~3.png</code>、<code>occ-risk-1~3.png</code> 等圖檔</li>
+<li><span class="tag">Added</span>本檔 <code>docs/修改總覽.html</code>（尚未提交）</li>
+</ul>
+</section>
+</main>
+</body>
+</html>
