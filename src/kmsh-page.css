@@ -450,6 +450,7 @@ transform 1.2s ease; }
 .occ-row dd { margin: 0; font-size: 1rem; text-align: right; }
 .occ-types { margin: -0.2rem 0 0; font-size: 1rem; line-height: 1.6; color: #444; text-align: right; }
 .occ-muted { margin: 0.7rem 0 0; font-size: 0.9375rem; color: #666; line-height: 1.5; }
+.occ-redo { display: block; margin: 0.6rem 0 0 auto; height: 2.25rem; padding: 0 1rem; border-radius: 999px; border: 1.5px solid #f0852b; background: #fff; color: #f0852b; font-size: 0.9375rem; font-weight: 700; cursor: pointer; }
 .occ-go { margin-top: 0.8rem; width: 100%; height: 2.9rem; border-radius: 999px; border: 1.5px solid #f0852b; background: #fff; color: #f0852b; font-size: 1.0625rem; font-weight: 700; cursor: pointer; }
 .occ-field { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.9rem; font-size: 1.0625rem; font-weight: 700; }
 .occ-input { display: flex; align-items: center; gap: 0.6rem; border: 1.5px solid #cfcfd4; border-radius: 0.8rem; padding: 0 0.9rem; background: #fff; }

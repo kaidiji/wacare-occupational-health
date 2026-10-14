@@ -596,7 +596,7 @@ Error generating stack: `+s.message+`
     const now=new Date();
     os({id:"occ-"+now.getTime(),createdAt:now.toISOString(),module:NAME,input:x,result:calc(x)});
   };
-  const src=(title,have,body,goText,go)=>h("section",{className:"occ-card"},h("div",{className:"occ-between"},h("h2",null,title),h("span",{className:"occ-chip "+(have?"is-ok":"is-miss")},have?"已自動帶入":"尚無資料")),have?body:h("div",null,h("button",{type:"button",className:"occ-go",onClick:go},goText)));
+  const src=(title,have,body,goText,go)=>h("section",{className:"occ-card"},h("div",{className:"occ-between"},h("h2",null,title),h("span",{className:"occ-chip "+(have?"is-ok":"is-miss")},have?"已自動帶入":"尚無資料")),have?h("div",null,body,h("button",{type:"button",className:"occ-redo",onClick:go},"重新填寫")):h("div",null,h("button",{type:"button",className:"occ-go",onClick:go},goText)));
   return h("div",{className:"occ-root",key:"occ-form"},head(NAME),
     h("div",{className:"occ-scroll"},
       h("p",{className:"occ-intro"},"本評估依勞動部《異常工作負荷促發疾病預防指引》（第二版，108 年 4 月）計算。"),
