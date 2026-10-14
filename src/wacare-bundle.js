@@ -558,7 +558,7 @@ Error generating stack: `+s.message+`
     const DN={personal:"個人過勞",work:"工作相關過勞",overtime:"月加班時數",types:"工作型態"};
     const drv=r.load>0?Object.keys(DN).filter((k)=>r.dims[k]===r.load).map((k)=>DN[k]):[];
     const reason="工作負荷為"+LD[r.load]+(drv.length?"（主要來自"+drv.join("、")+"）":"")+"，綜合風險為"+LVD[r.level]+"。";
-    return h("div",{className:"occ-root"},head("職業促發腦心血管疾病風險結果"),
+    return h("div",{className:"occ-root",key:"occ-result"},head("職業促發腦心血管疾病風險結果"),
       h("div",{className:"occ-scroll"},
         h("section",{className:"occ-card"},h("div",{className:"occ-between"},h("h2",null,"填寫日期"),h("time",null,fd(rec.createdAt)))),
         h("section",{className:"occ-card occ-result "+CL[r.level]},h("p",{className:"occ-lead"},"職業促發腦心血管疾病風險等級"),h("p",{className:"occ-big"},LVD[r.level])),
@@ -597,7 +597,7 @@ Error generating stack: `+s.message+`
     os({id:"occ-"+now.getTime(),createdAt:now.toISOString(),module:NAME,input:x,result:calc(x)});
   };
   const src=(title,have,body,goText,go)=>h("section",{className:"occ-card"},h("div",{className:"occ-between"},h("h2",null,title),h("span",{className:"occ-chip "+(have?"is-ok":"is-miss")},have?"已自動帶入":"尚無資料")),have?body:h("div",null,h("button",{type:"button",className:"occ-go",onClick:go},goText)));
-  return h("div",{className:"occ-root"},head(NAME),
+  return h("div",{className:"occ-root",key:"occ-form"},head(NAME),
     h("div",{className:"occ-scroll"},
       h("p",{className:"occ-intro"},"本評估依勞動部《異常工作負荷促發疾病預防指引》（第二版，108 年 4 月）計算。"),
       src("10 年心血管高風險預測",!!ten,ten&&h("dl",null,row("10 年總心血管疾病 (CVD) 風險",ten.result.risk.CVD10.toFixed(2)+"%"),row("填寫日期",fd(ten.createdAt))),"前往填寫十年心血管高風險預測",gTen),
