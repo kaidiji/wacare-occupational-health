@@ -403,7 +403,7 @@ Error generating stack: `+s.message+`
   const body=(t)=>{
     if(!t.includes(URL))return t;
     const parts=t.split(URL);
-    return l.jsxs(l.Fragment,{children:[parts[0].replace(/\n$/,""),l.jsx("br",{}),l.jsx("br",{}),l.jsx("a",{href:"#",className:"kmsh-chat-link",onClick:(e)=>{e.preventDefault();oa()},children:URL}),parts[1]||""]});
+    return l.jsxs(l.Fragment,{children:[parts[0].replace(/\n$/,""),l.jsx("br",{}),l.jsx("br",{}),l.jsx("span",{className:"kmsh-chat-link-hint",children:"👇 點此開啟活動頁"}),l.jsx("br",{}),l.jsx("a",{href:"#",className:"kmsh-chat-link",onClick:(e)=>{e.preventDefault();oa()},children:URL}),parts[1]||""]});
   };
   return l.jsxs("div",{className:"kmsh-chat",children:[
     l.jsxs("div",{className:"kmsh-expert-top kmsh-chat-top",children:[
@@ -550,6 +550,7 @@ Error generating stack: `+s.message+`
   const fd=(d)=>new Intl.DateTimeFormat("zh-TW",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:!1}).format(new Date(d));
   const fs=(d)=>{const x=new Date(d);return x.getFullYear()+"/"+(x.getMonth()+1)+"/"+x.getDate()};
   const row=(k,v,c)=>h("div",{key:k,className:"occ-row"},h("dt",null,k),h("dd",{className:c||""},v));
+  const redo=go=>h("button",{type:"button",className:"occ-redo",onClick:go},"↻ 重新填寫");
   const head=(t)=>h(Yc,{title:t,onBack:ob});
 
   // ---------------- RESULT ----------------
@@ -596,7 +597,7 @@ Error generating stack: `+s.message+`
     const now=new Date();
     os({id:"occ-"+now.getTime(),createdAt:now.toISOString(),module:NAME,input:x,result:calc(x)});
   };
-  const src=(title,have,body,goText,go)=>h("section",{className:"occ-card"},h("div",{className:"occ-between"},h("h2",null,title),h("span",{className:"occ-chip "+(have?"is-ok":"is-miss")},have?"已自動帶入":"尚無資料")),have?h("div",null,body,h("button",{type:"button",className:"occ-redo",onClick:go},"重新填寫")):h("div",null,h("button",{type:"button",className:"occ-go",onClick:go},goText)));
+  const src=(title,have,body,goText,go)=>h("section",{className:"occ-card"},h("div",{className:"occ-between"},h("h2",null,title),have?redo(go):h("span",{className:"occ-chip is-miss"},"尚無資料")),have?h("div",null,body):h("div",null,h("button",{type:"button",className:"occ-go",onClick:go},goText)));
   return h("div",{className:"occ-root",key:"occ-form"},head(NAME),
     h("div",{className:"occ-scroll"},
       h("p",{className:"occ-intro"},"本評估依勞動部《異常工作負荷促發疾病預防指引》（第二版，108 年 4 月）計算。"),
